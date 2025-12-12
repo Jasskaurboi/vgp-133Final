@@ -8,7 +8,7 @@
         private int maxHP;
         private int currentHP;
         private int attack;
-        private int defence;
+        private int defense;
         private string hairColour;
         private string gender;
         private int age;
@@ -21,23 +21,30 @@
 
         private List<Item> inventory = new List<Item>();
 
+        public string Name { get { return name; } }
+
+
         public int MaxHP { get { return maxHP; } }
+
+        public int CurrentHP { get { return currentHP; } }
+
+        public int Gold { get { return gold; } }
 
 
 
 
         public Player() // Default constructor, used for testing purposes
         {
-            name = " ";
-            maxHP = 0;
-            currentHP = 0;
-            attack = 0;
-            defence = 0;
+            name = "player";
+            maxHP = 100;
+            currentHP = maxHP;
+            attack = 5;
+            defense = 2;
             hairColour = "";
             gender = " ";
             age = 0;
             gold = 0;
-            level = 0;
+            level = 1;
             expThreshold = 10;
             exp = 0;
             armor = null;
@@ -59,12 +66,32 @@
             }
         }
 
+        public void UpdateExp(int value)
+        {
+            exp += value;
+
+            if(exp>= expThreshold)
+            {
+                level++;
+                exp-= expThreshold;
+                expThreshold += 20;
+            }
+
+        }
+
+        public void CombatLose()
+        {
+            currentHP = 1;
+            gold /= 2;
+
+        }
+
         public void UpdateGold(int value)
         {
             gold = Math.Max(gold + value, 0);
         }
 
-        public void AddItem(Item item)
+        public void AddItemToInventory(Item item)
         {
             inventory.Add(item);
         }
@@ -76,7 +103,19 @@
 
         public void ShowInventory()
         {
+            Console.WriteLine("Inventory:");
+            foreach (Item item in inventory)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
 
+        public void DisplayStats()
+        {
+            Console.Clear();
+            Console.WriteLine("Character stats");
+            Console.WriteLine($"Name: {name}");
+            //hair, gopld, etc.............
         }
 
         public void Equip(Equipment equipment)
@@ -92,7 +131,7 @@
 
             UpdateMaxHP(equipment.HP);
             attack += equipment.Attack;
-            defence += equipment.Defence;
+            defense += equipment.Defence;
         }
 
         public void SwapEquipment()
@@ -113,15 +152,20 @@
 
             UpdateMaxHP(-equipment.HP);
             attack -= equipment.Attack;
-            defence -= equipment.Defence;
+            defense -= equipment.Defence;
         }
-        public void Attack()
+        public void Attack(Enemy enemy)
         {
+            Console.WriteLine($"{name} are attacking {enemy.Name}!");
+            enemy.TakeDamage(attack);
 
         }
 
         public void TakeDamage(int damage)
         {
+            damage = Math.Max(damage - defense, 1);
+            Console.WriteLine($"{name} took {damage} damage!");
+            UpdateHealth(-damage);
 
         }
 

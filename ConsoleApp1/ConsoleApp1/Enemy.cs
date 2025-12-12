@@ -14,7 +14,7 @@ namespace ConsoleApp1
         private int maxHP;
         private int currentHP;
         private int attack;
-        private int defence;
+        private int defense;
         private int gold;
         private int xpDrop;
 
@@ -27,13 +27,13 @@ namespace ConsoleApp1
 
         public Enemy()
         {
-            name = " ";
-            maxHP = 0;
-            currentHP = 0;
-            attack = 0;
-            defence = 0;
-            gold=0;
-            xpDrop=0;
+            name = "enemy";
+            maxHP = 5;
+            currentHP = maxHP;
+            attack = 1;
+            defense = 1;
+            gold=1;
+            xpDrop=8;
         }
 
 
@@ -42,19 +42,21 @@ namespace ConsoleApp1
             currentHP = Math.Clamp(currentHP + value, 0, maxHP);
         }
 
-        public void Attack()
+        public void Attack(Player player)
         {
+            Console.WriteLine($"{name} are attacking {player.Name}!");
+            player.TakeDamage(attack);
 
         }
-
         public void SpecialAttack()
         {
 
         }
-
         public void TakeDamage(int damage)
         {
-
+            damage = Math.Max(damage - defense, 1);
+            Console.WriteLine($"{name} took {damage} damage!");
+            UpdateHealth(-damage);
         }
 
         public void Death()

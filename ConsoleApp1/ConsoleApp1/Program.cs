@@ -25,5 +25,11 @@ while (true)
             break;
     }
 
-    gameManager.RunGame();
+
+    if(gameManager.Player != null)
+    {
+        gameManager.RunGame();
+
+
+    }
 }
