@@ -11,7 +11,7 @@ namespace ConsoleApp1
         private int healAmount;
         public int HealAmount { get { return healAmount; } }
 
-        public Consumable(string name, int healAmount, int price) : base(name, price) 
+        public Consumable(string name, int healAmount, int price) : base(name, price,ItemType.Consumable) 
         {
             this.healAmount = healAmount;
 

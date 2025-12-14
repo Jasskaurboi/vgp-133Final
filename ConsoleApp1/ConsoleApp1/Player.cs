@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1
+﻿using System.Security.Cryptography;
+
+namespace ConsoleApp1
 {
     public class Player
     {
@@ -16,8 +18,8 @@
         private int level;
         private int expThreshold;
         private int exp;
-        private Armor armor;
-        private Weapon weapon;
+        private Equipment armor;
+        private Equipment weapon;
 
         private List<Item> inventory = new List<Item>();
 
@@ -43,7 +45,7 @@
             hairColour = "";
             gender = " ";
             age = 0;
-            gold = 0;
+            gold = 50;
             level = 1;
             expThreshold = 10;
             exp = 0;
@@ -70,11 +72,35 @@
         {
             exp += value;
 
-            if(exp>= expThreshold)
+            if (exp >= expThreshold)
             {
+
                 level++;
-                exp-= expThreshold;
+                exp -= expThreshold;
                 expThreshold += 20;
+                Random random = new Random();
+                int randomStats = random.Next(1, 4);
+
+                switch (randomStats)
+                {
+                    case 1:
+                        UpdateMaxHP(5);
+                        UpdateHealth(5);
+                        Console.WriteLine("Max HP has increased by 5!!");
+                        break;
+                    case 2:
+                        attack += 1;
+                        Console.WriteLine("Attack has increased by 1!!");
+                        break;
+                    case 3:
+                        defense += 1;
+                        Console.WriteLine("Defense has increased by 1!!");
+                        break;
+
+                    default:
+                        break;
+                }
+                Console.ReadKey();
             }
 
         }
@@ -122,11 +148,11 @@
         {
             if (equipment.Type == EquipmentType.Armor)
             {
-                armor = (Armor)equipment;
+                armor = equipment;
             }
             else if (equipment.Type == EquipmentType.Weapon)
             {
-                weapon = (Weapon)equipment;
+                weapon = equipment;
             }
 
             UpdateMaxHP(equipment.HP);

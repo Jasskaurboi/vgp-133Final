@@ -9,12 +9,15 @@ namespace ConsoleApp1
     public  class Item
     {
         public string Name { get; set; }
+
+        public ItemType Type { get; set; }
         public int Price { get; set; }
 
-        public Item(string name, int price)
+        public Item(string name, int price, ItemType type)
         {
-            this.Name = name;
-            this.Price = price;
+            Name = name;
+            Price = price;
+            Type = type;
         }
 
     }

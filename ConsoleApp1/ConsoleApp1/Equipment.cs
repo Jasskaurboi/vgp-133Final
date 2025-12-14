@@ -14,8 +14,9 @@ namespace ConsoleApp1
         public int Attack { get; set; }
         public int Defence { get; set; }
 
-        public Equipment(string name, int hp, int attack, int defence, int price):base (name,price)
+        public Equipment(string name, int hp, int attack, int defence, int price, EquipmentType type):base (name,price, ItemType.Equipment)
         {
+           Type = type;
             HP = hp; 
             Attack = attack;
             Defence = defence;

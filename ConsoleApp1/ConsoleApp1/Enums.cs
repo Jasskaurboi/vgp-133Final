@@ -8,9 +8,18 @@ namespace ConsoleApp1
 {
     public enum EquipmentType
     {
+
         Null,
         Armor,
-        Weapon   
+        Weapon
     }
+
+    public enum ItemType
+    { 
+        Null,
+        Consumable,
+        Equipment
+    }
+
 
 }
