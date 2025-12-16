@@ -29,7 +29,7 @@ namespace ConsoleApp1
             {
                 Console.Clear();
                 Console.WriteLine("==========shop==========");
-                Console.WriteLine($"your gold: {player.UpdateGold}");
+                Console.WriteLine($"your gold: {player.Gold}");
 
                 Console.WriteLine();
 
@@ -76,11 +76,12 @@ namespace ConsoleApp1
                 if (player.Gold < shopList[input-1].Price)
                 {
                     Console.WriteLine("You don't have enough gold!!");
+                    Console.WriteLine("Press any key to leave.");
                     Console.ReadKey();
                 }
                 else
                 {
-                    player.UpdateGold(shopList[input-1].Price);
+                    player.UpdateGold(-shopList[input-1].Price);
                     Console.WriteLine($"Bought{shopList[input - 1].Name} for {shopList[input - 1].Price}");
 
                     if(shopList[input - 1].Type==ItemType.Consumable)

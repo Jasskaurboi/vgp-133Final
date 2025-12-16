@@ -8,14 +8,34 @@ namespace ConsoleApp1
 {
     public class Mountain
     {
+        private List<Item> dropList = new List<Item>()
+        {
+            new Consumable("Medium Potion", 20, 40),
+            new Equipment("Iron Sword", 1,20,38,30, EquipmentType.Weapon),
+            new Equipment("Iron Armor", 2,45,60,65, EquipmentType.Armor)
+        };
         public void RunScene(Player player)
         {
             Random random = new Random();
             if (random.NextDouble() < 0.5)
             {
-                Console.WriteLine("You found an item!");
-                //Item drop= new Item();
-                // player.AddItem(drop);
+                int randomItem = random.Next(dropList.Count);
+                if (dropList[randomItem].Type == ItemType.Consumable)
+                {
+
+                    Consumable newItem = new Consumable(dropList[randomItem].Name, ((Consumable)dropList[randomItem]).HealAmount, dropList[randomItem].Price);
+                    player.AddItemToInventory(newItem);
+                    Console.WriteLine($"You found a {newItem.Name}!");
+                }
+                else if (dropList[randomItem].Type == ItemType.Equipment)
+                {
+                    Equipment newItem = new Equipment(dropList[randomItem].Name, ((Equipment)dropList[randomItem]).HP, ((Equipment)dropList[randomItem]).Attack, ((Equipment)dropList[randomItem]).Defence, dropList[randomItem].Price, ((Equipment)dropList[randomItem]).Type);
+                    player.AddItemToInventory(newItem);
+                    Console.WriteLine($"You found a {newItem.Name}!");
+                }
+                int goldDrop = random.Next(1, 11);
+                player.UpdateGold(goldDrop);
+                Console.WriteLine($"You got {goldDrop} gold.");
                 Console.ReadKey();
             }
             else
