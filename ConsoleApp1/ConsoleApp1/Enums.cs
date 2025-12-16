@@ -21,5 +21,11 @@ namespace ConsoleApp1
         Equipment
     }
 
+    public enum EnemyType
+    {
+        Null,
+        Basic,
+        Boss
+    }
 
 }

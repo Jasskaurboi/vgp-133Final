@@ -54,13 +54,13 @@ namespace ConsoleApp1
                     return;
                 }
 
-                if (random.NextDouble() <= 0.69)
+                if (random.NextDouble() <= 0.09)
                 {
                     enemy.Attack(player);
                 }
                 else
                 {
-                    //enemy.SpecialAttack
+                    enemy.SpecialAttack(player);
                 }
 
                 //you lost

@@ -5,8 +5,6 @@ namespace ConsoleApp1
     public class Player
     {
         private string name;
-        // private string _unitType;
-
         private int maxHP;
         private int currentHP;
         private int attack;

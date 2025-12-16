@@ -15,6 +15,13 @@ namespace ConsoleApp1
              new Equipment("Wooden Sword",0,25,30,25, EquipmentType.Weapon),
              new Equipment("Cloth Armor",4,30,40,20,EquipmentType.Armor )
         };
+
+        private List<Enemy> enemies = new List<Enemy>()
+        {
+            new Goblin(),
+            new Skeleton()
+        };
+
         public void RunScene(Player player)
         {
             Random random = new Random();
@@ -42,11 +49,17 @@ namespace ConsoleApp1
             }
             else
             {
-                Console.WriteLine("You found an enemy!");
+
+                int randomEnemy = random.Next(enemies.Count);
+
+                Enemy enemy = enemies[randomEnemy];
+
+                Console.WriteLine($"You found dangerous {enemy.Name}!");
+
+
                 Console.ReadKey();
                 CombatScene combatScene = new CombatScene();
 
-                Enemy enemy = new Enemy();
                 combatScene.RunScene(player, enemy);
             }
         }
