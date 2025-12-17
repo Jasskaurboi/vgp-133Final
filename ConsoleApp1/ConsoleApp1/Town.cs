@@ -10,7 +10,7 @@ namespace ConsoleApp1
     {
         public void RunScene(Player player)
         {
-            while(true)
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Choose Menu Option:");
@@ -19,7 +19,8 @@ namespace ConsoleApp1
                 Console.WriteLine("3. Buy equipment");
                 Console.WriteLine("4. Show inventory");
                 Console.WriteLine("5. Display Stats");
-                Console.WriteLine("6. Exit");
+                Console.WriteLine("6. Equipment menu");
+                Console.WriteLine("7. Exit");
 
 
                 int input = Convert.ToInt32(Console.ReadLine());
@@ -46,6 +47,9 @@ namespace ConsoleApp1
                         player.DisplayStats();
                         break;
                     case 6:
+                         player.EquipmentMenu();
+                        break;
+                    case 7:
                         return;
                     default:
                         break;

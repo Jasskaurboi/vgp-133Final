@@ -53,27 +53,21 @@ namespace ConsoleApp1
 
                 int input = -1;
 
-                while(true)
+                Console.WriteLine("Select an item:");
+                while (true)
                 {
-                    Console.WriteLine("Select an item:");
 
-                    if (int.TryParse(Console.ReadLine(), out input) && input >= 0&& input<=shopList.Count)
+                    if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= shopList.Count)
                     {
                         break;
                     }
-
-                    // input=Convert.ToInt32( Console.ReadLine() );
-                    //if(input>shopList.Count && input<0)
-                    //{
-                    //    break;
-                    //}
                 }
-                if(input==0)
+                if (input == 0)
                 {
                     Console.WriteLine("Leaving the shop.");
                     return;
                 }
-                if (player.Gold < shopList[input-1].Price)
+                if (player.Gold < shopList[input - 1].Price)
                 {
                     Console.WriteLine("You don't have enough gold!!");
                     Console.WriteLine("Press any key to leave.");
@@ -81,10 +75,10 @@ namespace ConsoleApp1
                 }
                 else
                 {
-                    player.UpdateGold(-shopList[input-1].Price);
+                    player.UpdateGold(-shopList[input - 1].Price);
                     Console.WriteLine($"Bought{shopList[input - 1].Name} for {shopList[input - 1].Price}");
 
-                    if(shopList[input - 1].Type==ItemType.Consumable)
+                    if (shopList[input - 1].Type == ItemType.Consumable)
                     {
                         Consumable newItem = new Consumable(shopList[input - 1].Name, ((Consumable)shopList[input - 1]).HealAmount, shopList[input - 1].Price);  //ask professor
                         player.AddItemToInventory(newItem);
@@ -98,10 +92,10 @@ namespace ConsoleApp1
                     return;
                 }
 
-                
 
-               // Item selectedItem=shopList[input-1];
-            } 
+
+                // Item selectedItem=shopList[input-1];
+            }
 
 
         }

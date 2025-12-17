@@ -43,7 +43,7 @@ namespace ConsoleApp1
             hairColour = "";
             gender = " ";
             age = 0;
-            gold = 50;
+            gold = 150;
             level = 1;
             expThreshold = 10;
             exp = 0;
@@ -142,20 +142,136 @@ namespace ConsoleApp1
             //hair, gopld, etc.............
         }
 
+        //public void EquipmentMenu()
+        //{
+        //    Console.WriteLine("Equipment menu:");
+
+        //    var equipmentList = (from item in inventory
+        //                         where item is Equipment
+        //                         group item by item.Name into equipments
+        //                         orderby equipments.Key ascending
+        //                         select new { Name = equipments.Key, Count = equipments.Count(), Num = equipments.ToList()}).ToList();
+
+        //    if (equipmentList.Count() == 0)
+        //    {
+        //        Console.WriteLine("You have no equipment.");
+        //        return;
+        //    }
+
+        //    if (armor != null)
+        //    {
+        //        Console.WriteLine($"Current armor: {armor.Name}");
+        //    }
+
+        //    if (weapon != null)
+        //    {
+        //        Console.WriteLine($"Current weapon: {weapon.Name}");
+        //    }
+
+        //    int input = 0;
+        //    int i = 0;
+
+        //    foreach (var equipment in equipmentList)
+        //    {
+        //        i++;
+        //        Console.WriteLine($"{i}. {equipment.Name}");
+        //    }
+
+        //    Console.WriteLine("Select an equipment:");
+        //    while (true)
+        //    {
+
+        //        if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= equipmentList.Count())
+        //        {
+        //            break;
+        //        }
+        //    }
+
+        //    var newEquipment = equipmentList[input - 1].Num[0];
+
+        //    if(newEquipment is Equipment newItem)
+        //    {
+        //        if ((Equipment)newEquipment.Type == EquipmentType.Armor)
+        //        {
+
+        //        }
+        //    }
+        //}
+
+        public void EquipmentMenu()
+        {
+            Console.WriteLine("Equipment menu:");
+
+            List<Equipment> equipments = new List<Equipment>();
+            foreach (Item item in inventory)
+            {
+                if (item.Type == ItemType.Equipment)
+                {
+                    equipments.Add((Equipment)item);
+                }
+            }
+
+            if (armor != null)
+            {
+                Console.WriteLine($"Current armor: {armor.Name}");
+            }
+
+            if (weapon != null)
+            {
+                Console.WriteLine($"Current weapon: {weapon.Name}");
+            }
+
+            for (int i = 0; i < equipments.Count(); i++)
+            {
+                Console.WriteLine($"{i + 1}. {equipments[i].Name}");
+            }
+
+            int input;
+            Console.WriteLine("Select an equipment: (0 to cancel)");
+            while (true)
+            {
+
+                if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= equipments.Count())
+                {
+                    break;
+                }
+            }
+
+            if(input ==0)
+            {
+                return;
+            }
+
+            Equipment newEquipment = equipments[input - 1];
+            Equip(newEquipment);
+        }
         public void Equip(Equipment equipment)
         {
             if (equipment.Type == EquipmentType.Armor)
             {
+                if (armor != null)
+                {
+                    inventory.Add(armor);
+                }
+
                 armor = equipment;
             }
             else if (equipment.Type == EquipmentType.Weapon)
             {
+                if (weapon != null)
+                {
+                    inventory.Add(weapon);
+                }
+
                 weapon = equipment;
             }
 
+            inventory.Remove(equipment);
             UpdateMaxHP(equipment.HP);
             attack += equipment.Attack;
             defense += equipment.Defence;
+
+            Console.WriteLine("You equipped an equipment.");
         }
 
         public void SwapEquipment()
