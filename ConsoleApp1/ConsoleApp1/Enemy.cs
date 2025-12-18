@@ -24,7 +24,7 @@ namespace ConsoleApp1
         public int MaxHP { get { return maxHP; } }
         public int Att {  get { return attack; } }
         public int Defense {  get { return defense; } }
-        public int GoldDrop { get { return gold; } }
+        public int GoldDrop { get { return gold; } set { gold = value; } }
         public int XPDrop { get { return xpDrop; } }
         public bool IsDead { get { return currentHP <= 0; } }
 

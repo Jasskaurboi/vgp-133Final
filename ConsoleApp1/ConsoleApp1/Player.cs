@@ -19,6 +19,10 @@ namespace ConsoleApp1
         private Equipment armor;
         private Equipment weapon;
 
+        private bool isGameOver;
+
+
+
         private List<Item> inventory = new List<Item>();
 
         public string Name { get { return name; } }
@@ -30,7 +34,7 @@ namespace ConsoleApp1
 
         public int Gold { get { return gold; } }
 
-
+        public bool IsGameOver { get { return isGameOver; } }
 
 
         public Player() // Default constructor, used for testing purposes
@@ -38,7 +42,7 @@ namespace ConsoleApp1
             name = "player";
             maxHP = 100;
             currentHP = maxHP;
-            attack = 5;
+            attack = 100;
             defense = 2;
             hairColour = "";
             gender = " ";
@@ -49,7 +53,26 @@ namespace ConsoleApp1
             exp = 0;
             armor = null;
             weapon = null;
+            isGameOver = false;
+        }
 
+        public Player(string name, string hairColour, string gender, int age)
+        {
+            this.name = name;
+            maxHP = 100;
+            currentHP = maxHP;
+            attack = 10;
+            defense = 2;
+            this.hairColour = hairColour;
+            this.gender = gender;
+            this.age = age;
+            gold = 0;
+            level = 1;
+            expThreshold = 10;
+            exp = 0;
+            armor = null;
+            weapon = null;
+            isGameOver = false;
         }
 
         public void UpdateHealth(int value)
@@ -78,6 +101,8 @@ namespace ConsoleApp1
                 expThreshold += 20;
                 Random random = new Random();
                 int randomStats = random.Next(1, 4);
+
+                Console.WriteLine("You leveled up!!");
 
                 switch (randomStats)
                 {
@@ -110,6 +135,10 @@ namespace ConsoleApp1
 
         }
 
+        public void WinTheGame()
+        {
+            isGameOver = true;
+        }
         public void UpdateGold(int value)
         {
             gold = Math.Max(gold + value, 0);
@@ -122,16 +151,103 @@ namespace ConsoleApp1
 
         public void UseItem()
         {
+            Console.WriteLine("Inventory :");
+
+            List<Consumable>consumables = new List<Consumable>();
+            foreach(Item item in inventory)
+            {
+                if(item.Type== ItemType.Consumable)
+                {
+                    consumables.Add((Consumable)item);
+                }
+            }
+
+            if (consumables.Count == 0)
+            {
+                Console.WriteLine("There are no items!");
+                return;
+            }
+
+            Console.WriteLine("Choose item to use :");
+
+            for (int i = 0; i < consumables.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {consumables[i].Name}");
+
+            }
+            int input = -1;
+
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out input) && input > 0 && input < consumables.Count)
+                {
+                    break;
+                }
+            }
+
+            Console.WriteLine($"You used an item! Healed{consumables[input].HealAmount} ");
+            UpdateHealth(consumables[input].HealAmount);
+            inventory.Remove(consumables[input]);
 
         }
 
         public void ShowInventory()
         {
             Console.WriteLine("Inventory:");
+            if (inventory.Count == 0)
+            {
+                Console.WriteLine("Inventory is empty!!");
+                return;
+            }
             foreach (Item item in inventory)
             {
                 Console.WriteLine(item.Name);
             }
+
+            Console.WriteLine("\nSort by: \n0. Exit\n 1 .Quantity \n 2.Name \n3.Type ");
+            int input = -1;
+
+            while (true)
+            {
+
+                if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= 3)
+                {
+                    break;
+                }
+            }
+
+            if (input == 0)
+            {
+                return;
+            }
+
+            var sorted = from item in inventory
+                         group item by item.Name into sortedItems
+                         let itemType = sortedItems.First().Type
+                         select new { Name = sortedItems.Key, Count = sortedItems.Count(), Type = itemType };
+
+            if (input == 1)
+            {
+                sorted = sorted.OrderByDescending(item => item.Count);
+            }
+            else if (input == 2)
+            {
+                sorted = sorted.OrderBy(item => item.Name);
+            }
+            else if (input == 3)
+            {
+                sorted = sorted.OrderBy(item => item.Type).ThenBy(item => item.Name);
+            }
+
+            Console.Clear();
+            Console.WriteLine("Inventory: ");
+
+            foreach (var sortedItems in sorted)
+            {
+                Console.WriteLine($"{sortedItems.Name} | {sortedItems.Type} | x{sortedItems.Count}");
+            }
+
+
         }
 
         public void DisplayStats()
@@ -139,64 +255,15 @@ namespace ConsoleApp1
             Console.Clear();
             Console.WriteLine("Character stats");
             Console.WriteLine($"Name: {name}");
-            //hair, gopld, etc.............
+            Console.WriteLine($"HP: {currentHP}/{maxHP}");
+            Console.WriteLine($"Attack: {attack}");
+            Console.WriteLine($"Defense: {defense}");
+            Console.WriteLine($"Hair: {hairColour}");
+            Console.WriteLine($"Gender: {gender}");
+            Console.WriteLine($"Age: {age}");
+            Console.WriteLine($"Gold: {gold}");
+            Console.WriteLine($"Level: {level}");
         }
-
-        //public void EquipmentMenu()
-        //{
-        //    Console.WriteLine("Equipment menu:");
-
-        //    var equipmentList = (from item in inventory
-        //                         where item is Equipment
-        //                         group item by item.Name into equipments
-        //                         orderby equipments.Key ascending
-        //                         select new { Name = equipments.Key, Count = equipments.Count(), Num = equipments.ToList()}).ToList();
-
-        //    if (equipmentList.Count() == 0)
-        //    {
-        //        Console.WriteLine("You have no equipment.");
-        //        return;
-        //    }
-
-        //    if (armor != null)
-        //    {
-        //        Console.WriteLine($"Current armor: {armor.Name}");
-        //    }
-
-        //    if (weapon != null)
-        //    {
-        //        Console.WriteLine($"Current weapon: {weapon.Name}");
-        //    }
-
-        //    int input = 0;
-        //    int i = 0;
-
-        //    foreach (var equipment in equipmentList)
-        //    {
-        //        i++;
-        //        Console.WriteLine($"{i}. {equipment.Name}");
-        //    }
-
-        //    Console.WriteLine("Select an equipment:");
-        //    while (true)
-        //    {
-
-        //        if (int.TryParse(Console.ReadLine(), out input) && input >= 0 && input <= equipmentList.Count())
-        //        {
-        //            break;
-        //        }
-        //    }
-
-        //    var newEquipment = equipmentList[input - 1].Num[0];
-
-        //    if(newEquipment is Equipment newItem)
-        //    {
-        //        if ((Equipment)newEquipment.Type == EquipmentType.Armor)
-        //        {
-
-        //        }
-        //    }
-        //}
 
         public void EquipmentMenu()
         {
@@ -237,7 +304,7 @@ namespace ConsoleApp1
                 }
             }
 
-            if(input ==0)
+            if (input == 0)
             {
                 return;
             }
@@ -252,6 +319,7 @@ namespace ConsoleApp1
                 if (armor != null)
                 {
                     inventory.Add(armor);
+                    RemoveEquipment(equipment.Type);
                 }
 
                 armor = equipment;
@@ -261,38 +329,42 @@ namespace ConsoleApp1
                 if (weapon != null)
                 {
                     inventory.Add(weapon);
+                    RemoveEquipment(equipment.Type);
+
                 }
 
                 weapon = equipment;
             }
 
-            inventory.Remove(equipment);
-            UpdateMaxHP(equipment.HP);
+            currentHP += equipment.HP;
+            maxHP += equipment.HP;
             attack += equipment.Attack;
             defense += equipment.Defence;
+            inventory.Remove(equipment);
 
             Console.WriteLine("You equipped an equipment.");
         }
 
-        public void SwapEquipment()
+        public void RemoveEquipment(EquipmentType type)
         {
-
-        }
-
-        public void RemoveEquipment(Equipment equipment)
-        {
-            if (equipment.Type == EquipmentType.Armor)
+            if (type == EquipmentType.Armor)
             {
+                currentHP -= armor.HP;
+                maxHP -= armor.HP;
+                attack -= armor.Attack;
+                defense -= armor.Defence;
+
                 armor = null;
             }
-            else if (equipment.Type == EquipmentType.Weapon)
+            else if (type == EquipmentType.Weapon)
             {
+                currentHP -= weapon.HP;
+                maxHP -= weapon.HP;
+                attack -= weapon.Attack;
+                defense -= weapon.Defence;
+
                 weapon = null;
             }
-
-            UpdateMaxHP(-equipment.HP);
-            attack -= equipment.Attack;
-            defense -= equipment.Defence;
         }
         public void Attack(Enemy enemy)
         {

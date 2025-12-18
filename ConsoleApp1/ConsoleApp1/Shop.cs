@@ -17,10 +17,10 @@ namespace ConsoleApp1
 
         private List<Item> equipments = new List<Item>()
         {
-            new Equipment("Wooden Sword",0,25,30,25, EquipmentType.Weapon),
-            new Equipment("Iron Sword", 1,20,38,30, EquipmentType.Weapon),
-            new Equipment("Cloth Armor",4,30,40,20,EquipmentType.Armor ),
-            new Equipment("Iron Armor", 2,45,60,65, EquipmentType.Armor)
+            new Equipment("Wooden Sword",0,10,0,25, EquipmentType.Weapon),
+            new Equipment("Iron Sword", 0,20,0,30, EquipmentType.Weapon),
+            new Equipment("Cloth Armor",5,0,10,35,EquipmentType.Armor ),
+            new Equipment("Iron Armor", 15,0,20,65, EquipmentType.Armor)
         };
 
         public void RunScene(Player player, string shopType)

@@ -24,6 +24,9 @@ namespace ConsoleApp1
 
         public void RunScene(Player player)
         {
+            Console.Clear();
+            Console.WriteLine("FOREST!!");
+            Console.WriteLine($"{player.CurrentHP}/{player.MaxHP}hp | {player.Gold}g");
             Random random = new Random();
             if (random.NextDouble() < 0.5)
             {

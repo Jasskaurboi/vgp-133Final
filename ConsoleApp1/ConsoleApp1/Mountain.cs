@@ -14,8 +14,19 @@ namespace ConsoleApp1
             new Equipment("Iron Sword", 1,20,38,30, EquipmentType.Weapon),
             new Equipment("Iron Armor", 2,45,60,65, EquipmentType.Armor)
         };
+
+        private List<Enemy> enemies = new List<Enemy>()
+        {
+            new BigLeech(),
+            new Imptheif(),
+            new PeskyBoomerang()
+        };
+
         public void RunScene(Player player)
         {
+            Console.Clear();
+            Console.WriteLine("MOUNTAIN!!");
+            Console.WriteLine($"{player.CurrentHP}/{player.MaxHP}hp | {player.Gold}g");
             Random random = new Random();
             if (random.NextDouble() < 0.5)
             {
@@ -40,11 +51,16 @@ namespace ConsoleApp1
             }
             else
             {
-                Console.WriteLine("You found an enemy!");
+                int randomEnemy = random.Next(enemies.Count);
+
+                Enemy enemy = enemies[randomEnemy];
+
+                Console.WriteLine($"You found dangerous {enemy.Name}!");
+
+
                 Console.ReadKey();
                 CombatScene combatScene = new CombatScene();
 
-                Enemy enemy = new Enemy();
                 combatScene.RunScene(player, enemy);
             }
         }

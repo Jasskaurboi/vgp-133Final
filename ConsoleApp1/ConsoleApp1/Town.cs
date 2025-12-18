@@ -13,6 +13,8 @@ namespace ConsoleApp1
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine("TOWN!!");
+                Console.WriteLine($"{player.CurrentHP}/{player.MaxHP}hp | {player.Gold}g");
                 Console.WriteLine("Choose Menu Option:");
                 Console.WriteLine("1. Visit the inn");
                 Console.WriteLine("2. Buy consumable");
@@ -22,8 +24,16 @@ namespace ConsoleApp1
                 Console.WriteLine("6. Equipment menu");
                 Console.WriteLine("7. Exit");
 
+                int input = -1;
+                if (int.TryParse(Console.ReadLine(), out input) && input > 0 && input <= 7)
+                {
 
-                int input = Convert.ToInt32(Console.ReadLine());
+                }
+                else
+                {
+                    continue;
+                }
+
                 Console.Clear();
 
                 switch (input)

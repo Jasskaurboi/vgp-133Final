@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class Skeleton : Enemy
+    public class PeskyBoomerang : Enemy
     {
-        public Skeleton() : base("Skeleton", EnemyType.Basic, 12, 14, 3, 9, 4)
+        public PeskyBoomerang() : base("PeskyBoomerang", EnemyType.Basic, 16, 15, 7, 14, 6)
         {
 
         }
 
         public override void SpecialAttack(Player player)
         {
-
-            Random random= new Random();
-            int attacks = random.Next(1, 4);
-            for(int i = 0; i < attacks; i++)
+            Random random = new Random();
+            int currentChance = 100;
+            while (random.Next(100) < currentChance)
             {
                 Console.WriteLine($"{Name} used special attack.");
                 player.TakeDamage(Att);
-
+                currentChance -= 25;
             }
         }
     }

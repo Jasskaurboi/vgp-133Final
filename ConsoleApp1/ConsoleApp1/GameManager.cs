@@ -8,7 +8,8 @@
 
         public void Newgame()
         {
-            player = new Player();
+            //player = new Player(); for testing 
+            CreatePlayer();
         }
 
         public void Continue()
@@ -21,7 +22,8 @@
             while (true)
             {
                 Console.Clear();
-               // string  playerStats
+                Console.WriteLine("Over World!!");
+                Console.WriteLine($"{player.CurrentHP}/{player.MaxHP}hp | {player.Gold}g");
 
                 Console.WriteLine("Choose Menu Option:");
                 Console.WriteLine("1. Town");
@@ -32,8 +34,15 @@
                 Console.WriteLine("6. Load");
                 Console.WriteLine("7. Exit");
 
-                int input = Convert.ToInt32(Console.ReadLine());
+                int input = -1;
+                if (int.TryParse(Console.ReadLine(), out input) && input > 0 && input <= 7)
+                {
 
+                }
+                else
+                {
+                    continue;
+                }
                 switch (input)
                 {
                     case 1: // Town
@@ -51,6 +60,10 @@
                     case 4://BossCastle
                         BossCastle bosscastle = new BossCastle();
                         bosscastle.RunScene(player);
+                        if (player.IsGameOver)
+                        {
+                            return;
+                        }
                         break;
                     case 5://save
                         Save();
@@ -66,7 +79,41 @@
             }
 
         }
-    
+
+        private void CreatePlayer()
+        {
+            string name;
+            string hairColour;
+            string gender;
+            int age;
+
+            Console.WriteLine("Enter the name:");
+            string input = Console.ReadLine();
+            name = input;
+
+            Console.WriteLine("Enter the Hair colour:");
+            input = Console.ReadLine();
+            hairColour = input;
+
+            Console.WriteLine("Enter the gender:");
+            input = Console.ReadLine();
+            gender = input;
+
+            Console.WriteLine("Enter the age:");
+            int ageInput = 0;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out ageInput) && ageInput >= 18 && ageInput < 99)
+                {
+                    break;
+                }
+            }
+            age = ageInput;
+
+            player= new Player(name, hairColour,gender,age);
+
+        }
+
 
         private void Save()
         {
